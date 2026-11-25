@@ -2,15 +2,14 @@
 #include <string.h>
 #include "common.h"
 
-#define LOYALTY_LIMIT 5000
-#define DISCOUNT_RATE 0.05
+
 
 // Calculate discount amount
 float calculateDiscount(float subtotal)
 {
     if (subtotal >= LOYALTY_LIMIT)
     {
-        return subtotal * DISCOUNT_RATE;
+        return subtotal * LOYALTY_DISCOUNT;
     }
 
     return 0;
@@ -27,7 +26,8 @@ int getLoyaltyID(char customerName[])
 
     if (fp != NULL)
     {
-        while (fscanf(fp, "%d|%99[^\n]\n", &id, name) == 2)
+        
+    while (fscanf(fp, "%d|%99[^\n]", &id, name) == 2)
         {
             if (id > highestID)
             {
@@ -75,7 +75,7 @@ void saveSale(struct Sale sale)
         return;
     }
 
-    fprintf(fp, "%.2f|%d\n", sale.total, sale.itemsSold);
+    fprintf(fp, "%.2f|%d\n", sale.finalAmount, sale.totalItems);
 
     fclose(fp);
 }
